@@ -1,0 +1,21 @@
+@if(movie()) {
+<article class="movie-trend">
+  <div class="movie-trend__container">
+    <div class="movie-trend__image">
+      <img
+        src="https://image.tmdb.org/t/p/w500/{{ movie()?.poster_path }}"
+        alt="{{ movie()?.title }}"
+      />
+    </div>
+    <div class="movie-trend__info w-fit">
+      <h2 class="movie-trend__title truncate">{{ movie()?.title }}</h2>
+      <p class="movie-trend__year">2019</p>
+      <div class="movie-trend__rating">
+        <span class="movie-trend__rating-value">8.9</span>
+        <span class="movie-trend__rating-scale">/10</span>
+      </div>
+    </div>
+  </div>
+</article>
+
+}

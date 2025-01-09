@@ -1,0 +1,3 @@
+.list-movie-trend {
+  @apply flex overflow-x-auto items-center gap-4;
+}

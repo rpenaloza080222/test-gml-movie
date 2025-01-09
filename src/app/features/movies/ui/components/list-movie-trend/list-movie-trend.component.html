@@ -1,0 +1,9 @@
+@if (movies().length > 0) {
+<ul class="list-movie-trend">
+  @for (item of movies(); track item.id) {
+  <app-movie-trend [movie]="item"></app-movie-trend>
+  } @empty {
+  <li>There are no items.</li>
+  }
+</ul>
+}
