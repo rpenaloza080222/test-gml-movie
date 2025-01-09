@@ -48,7 +48,7 @@
   font-size: 1rem;
   font-weight: bold;
   color: var(--color-white);
-  @apply !line-clamp-2;
+  @apply truncate;
 }
 
 .movie-trend__year {
