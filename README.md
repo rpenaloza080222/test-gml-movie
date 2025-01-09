@@ -1,59 +1,79 @@
-# PruebaGmlMovies
+Aplicación de Angular 19 con TMDb API
+Esta es una aplicación desarrollada con Angular 19 que consume la API de The Movie Database (TMDb) para mostrar información sobre películas, series y actores populares. La aplicación incluye funcionalidades como búsqueda, visualización de detalles y exploración de contenido multimedia.
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.0.7.
+Características
+Listado de películas populares.
+Búsqueda de películas y series.
+Visualización de detalles como sinopsis, puntuación y reparto.
+Diseño responsivo y moderno.
+Requisitos previos
+Antes de comenzar, asegúrate de tener instalados los siguientes componentes en tu sistema:
 
-## Development server
+Node.js (versión 16 o superior)
+npm (instalado junto con Node.js)
+Angular CLI (versión 15 o superior):
+Puedes instalar Angular CLI ejecutando:
+bash
+Copy code
+npm install -g @angular/cli
+Instalación
+Sigue estos pasos para instalar y configurar la aplicación:
 
-To start a local development server, run:
+Clona este repositorio en tu máquina local:
 
-```bash
+bash
+Copy code
+git clone <URL_DEL_REPOSITORIO>
+cd <NOMBRE_DEL_REPOSITORIO>
+Instala las dependencias del proyecto:
+
+bash
+Copy code
+npm install
+Obtén una clave de API de TMDb:
+Ve a TMDb API y regístrate/inicia sesión para obtener una clave de API.
+
+Configura las credenciales:
+Crea un archivo de entorno local (src/environments/environment.ts) y agrega tu clave de API de TMDb:
+
+typescript
+Copy code
+export const environment = {
+  production: false,
+  apiKey: 'TU_CLAVE_DE_API',
+  apiUrl: 'https://api.themoviedb.org/3'
+};
+Para producción, también puedes configurar src/environments/environment.prod.ts de manera similar.
+
+Uso
+Para correr la aplicación en modo de desarrollo:
+
+bash
+Copy code
 ng serve
-```
+Esto iniciará un servidor de desarrollo en http://localhost:4200/. La aplicación se recargará automáticamente al realizar cambios en el código.
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+Construcción para producción
+Para construir una versión optimizada de la aplicación:
 
-## Code scaffolding
+bash
+Copy code
+ng build --prod
+Los archivos resultantes estarán disponibles en el directorio dist/. Puedes utilizar cualquier servidor estático para desplegar la aplicación.
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+API de TMDb
+Esta aplicación utiliza la API de TMDb para obtener información sobre películas, series y actores. Para más detalles sobre los endpoints y parámetros, consulta la documentación oficial de TMDb.
 
-```bash
-ng generate component component-name
-```
+Contribuciones
+Las contribuciones son bienvenidas. Si deseas agregar nuevas funcionalidades o corregir errores, sigue estos pasos:
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+Haz un fork del repositorio.
+Crea una rama para tu funcionalidad/solución:
+bash
+Copy code
+git checkout -b mi-nueva-funcionalidad
+Realiza tus cambios y haz commits descriptivos.
+Envía un Pull Request.
+Licencia
+Este proyecto está bajo la licencia MIT. Consulta el archivo LICENSE para más detalles.
 
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.

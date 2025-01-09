@@ -1,20 +1,20 @@
 @if(movie()) {
-<article class="movie-trend">
+<article class="movie-trend  group relative p-4">
   <div class="movie-trend__container">
-    <div class="movie-trend__image">
-      <img
-        src="https://image.tmdb.org/t/p/w500/{{ movie()?.poster_path }}"
-        alt="{{ movie()?.title }}"
-      />
+    <div class="movie-trend__image mb-6 transition-all duration-300 group-hover:scale-110">
+      <img src="https://image.tmdb.org/t/p/{{!usePortrait() ? 'w355_and_h200_multi_faces': 'w500'}}{{ movie()?.poster_path }}" alt="{{ movie()?.title }}" />
     </div>
     <div class="movie-trend__info w-fit">
-      <h2 class="movie-trend__title max-w-[20ch]">{{ movie()?.title }}</h2>
-      <p class="movie-trend__year">2019</p>
-      <div class="movie-trend__rating">
-        <span class="movie-trend__rating-value">8.9</span>
-        <span class="movie-trend__rating-scale">/10</span>
-      </div>
+      <h4 class="movie-trend__title max-w-[20ch]">{{ movie()?.title }}</h4>
+
     </div>
+    @if(showRate()){
+    <div
+      class="flex items-center absolute top-0 right-0 bg-red-400 p-2 justify-center text-lg text-white font-bold aspect-square rounded-full">
+      <span class="movie-trend__rating-value">{{movie()?.vote_average ?? ''}}</span>
+    </div>
+    }
+
   </div>
 </article>
 

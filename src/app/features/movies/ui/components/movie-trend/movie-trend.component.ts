@@ -9,4 +9,6 @@ import { Component, input } from '@angular/core';
 })
 export class MovieTrendComponent {
   movie = input<Movie | undefined>();
+  showRate = input<boolean>(true)
+  usePortrait= input<boolean>(true)
 }

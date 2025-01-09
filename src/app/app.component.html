@@ -1,7 +1,13 @@
-<main class="min-h-screen flex flex-col w-full bg-gray-100">
+<main class="min-h-screen flex flex-col w-full bg-[#050505]">
   <app-navbar />
   <div class="2xl:max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 flex-1">
+    <div class="categories p-6 bg-[#1a1a1a] h-[100px] rounded-xl">
+      <ul class="">
+
+      </ul>
+    </div>
     <app-list-movie-trend></app-list-movie-trend>
+    <app-list-movies></app-list-movies>
     <router-outlet></router-outlet>
   </div>
   <app-footer />
