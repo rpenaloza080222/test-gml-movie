@@ -26,7 +26,10 @@ export class HttpRequestService {
         Authorization: `Bearer ${environment.apiKey}`,
       },
     };
-    return this._http.get<T>(allUrl, { params, ...options });
+    return this._http.get<T>(allUrl, { params: {
+      ...params,
+      language: "es"
+    }, ...options });
   }
 
   post<T = any, B = any>({ url, params, body }: BaseQueryHttpOptions<B>) {
