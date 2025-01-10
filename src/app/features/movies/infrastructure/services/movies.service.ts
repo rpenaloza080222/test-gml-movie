@@ -2,6 +2,7 @@ import { HttpRequestService } from '@/shared/services/http-request.service';
 import { inject, Injectable } from '@angular/core';
 import { ResponseMovies } from '../../domain/interfaces/ResponseMovies';
 import { MoviesFilter } from '../../domain/repositories/movies.repository';
+import { Movie } from '../../domain/interfaces/Movie';
 
 @Injectable({
   providedIn: 'root',
@@ -35,6 +36,12 @@ export class MoviesService {
         page,
         ...options,
       },
+    });
+  }
+
+  getMovieById(id: number){
+    return this._request.get<Movie>({
+      url: `movie/${id}`,
     });
   }
 }

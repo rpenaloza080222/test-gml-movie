@@ -29,4 +29,8 @@ export class MoviesRepositoryImpl implements MoviesRepository {
     console.log('Filters', this.filterOptions());
     return this._moviesServices.getMoviesByFilter(this.filterOptions());
   }
+
+  getMovieById(id:number){
+    return this._moviesServices.getMovieById(id)
+  }
 }

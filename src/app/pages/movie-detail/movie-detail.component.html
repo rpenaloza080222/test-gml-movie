@@ -1,1 +1,33 @@
-<p>movie-detail works!</p>
+@if(movie()){
+<div class="flex flex-col relative h-full">
+    <div class=" min-h-[530px]  ">
+        
+        <img class="absolute z-0  top-0 w-full" src="{{this.getBackdropUrl()}}" alt="">
+        <div class="z-[100] pt-20 px-4 gap-4 justify-center text-white relative flex flex-col">
+            <div class="flex flex-col gap-2">
+                <h1 class="text-5xl max-w-[20ch] text-balance title font-bold text-orange-500 text-">{{movie()?.title}}</h1>
+                <h3 class="text-sm">Título original: {{movie()?.original_title}}</h3>
+            </div>   
+            <p class="text-white text-pretty max-w-[50ch]">{{movie()?.overview}}</p>
+            <div class="flex gap-4 items-center">
+                <span class="text-lg">Fecha de lanzamiento:</span>
+                <span class="text-orange-500 text-xl p-2 w-fit rounded-full">
+                    {{movie()?.release_date | date}}
+                </span>
+            </div>
+            <div class="flex gap-4 items-center">
+                <span class="text-lg">Rating:</span>
+                <div class="bg-orange-500 text-xl p-2 w-fit rounded-full">
+                    {{movie()?.vote_average}}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="absolute w-full h-full z-[99] bg-gradient-to-r from-black/90 to-transparent">
+    </div>
+</div>
+<div class="text-white">
+    <h4 class="text-white text-3xl text-jersey">Similares</h4>
+</div>
+
+}

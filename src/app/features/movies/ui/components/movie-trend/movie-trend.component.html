@@ -1,5 +1,5 @@
 @if(movie()) {
-<article class="movie-trend group relative w-full min-w-[150px] p-4">
+<article (click)="goToMovieDetail()" class="movie-trend group relative w-full min-w-[150px] p-4">
   <div class="movie-trend__container">
     <div class="movie-trend__image relative">
       <img
@@ -11,7 +11,7 @@
       <div
         class="absolute w-full px-4 py-6 opacity-0 group-hover:opacity-100 h-0 transition-all duration-300 group-hover:h-full top-0 left-0 bg-black/50 backdrop-blur-md flex items-center justify-center"
       >
-        <p class="text-xs text-white">
+        <p class="text-xs text-white line-clamp-6">
           {{ movie()?.overview }}
         </p>
         <a class="absolute right-2 top-2 text-white">
