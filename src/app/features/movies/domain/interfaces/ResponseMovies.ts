@@ -1,6 +1,6 @@
 import { Movie } from './Movie';
 
-export type ResponseTrendingMovie = {
+export type ResponseMovies = {
   page: number;
   results: Movie[];
   total_pages: number;

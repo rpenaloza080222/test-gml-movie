@@ -1,5 +1,5 @@
 @if (movies().length > 0) {
-<h2 class="text-3xl text-white mt-10">Trending Movies</h2>
+<h2 class="text-3xl text-white text-jersey mt-10">Trending Movies</h2>
 <ul class="list-movie-trend">
   @for (item of movies(); track item.id) {
   <app-movie-trend [movie]="item"></app-movie-trend>
