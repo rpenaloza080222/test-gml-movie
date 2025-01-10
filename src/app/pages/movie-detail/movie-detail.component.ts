@@ -1,13 +1,14 @@
 import { Movie } from '@/features/movies/domain/interfaces/Movie';
 import { MoviesRepositoryImpl } from '@/features/movies/infrastructure/repositories/movies.repository.impl';
-import { DatePipe } from '@angular/common';
+import { DatePipe, DecimalPipe } from '@angular/common';
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-movie-detail',
   imports: [
-    DatePipe
+    DatePipe,
+    DecimalPipe
   ],
   
   providers: [MoviesRepositoryImpl],

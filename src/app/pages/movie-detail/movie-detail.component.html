@@ -17,8 +17,8 @@
             </div>
             <div class="flex gap-4 items-center">
                 <span class="text-lg">Rating:</span>
-                <div class="bg-orange-500 text-xl p-2 w-fit rounded-full">
-                    {{movie()?.vote_average}}
+                <div class="bg-orange-500 aspect-square text-xl p-2 w-fit rounded-full">
+                    {{movie()?.vote_average | number:'1.1-1'}}
                 </div>
             </div>
         </div>
