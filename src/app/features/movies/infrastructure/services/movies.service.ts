@@ -1,7 +1,10 @@
 import { HttpRequestService } from '@/shared/services/http-request.service';
 import { inject, Injectable } from '@angular/core';
 import { ResponseMovies } from '../../domain/interfaces/ResponseMovies';
-import { MoviesFilter } from '../../domain/repositories/movies.repository';
+import {
+  MoviesFilter,
+  ResponseCredits,
+} from '../../domain/repositories/movies.repository';
 import { Movie } from '../../domain/interfaces/Movie';
 
 @Injectable({
@@ -39,9 +42,21 @@ export class MoviesService {
     });
   }
 
-  getMovieById(id: number){
+  getMovieById(id: number) {
     return this._request.get<Movie>({
       url: `movie/${id}`,
+    });
+  }
+
+  getSimilarMovies(id: number) {
+    return this._request.get<ResponseMovies>({
+      url: `movie/${id}/similar`,
+    });
+  }
+
+  getMovieCredits(id: number) {
+    return this._request.get<ResponseCredits>({
+      url: `movie/${id}/credits`,
     });
   }
 }

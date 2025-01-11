@@ -5,10 +5,11 @@ import { MovieTrendComponent } from '../movie-trend/movie-trend.component';
 import { MoviesFilter } from '@/features/movies/domain/repositories/movies.repository';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
+import { MovieListGridComponent } from '@/shared/components/movie-list-grid/movie-list-grid.component';
 
 @Component({
   selector: 'app-list-movies',
-  imports: [MovieTrendComponent],
+  imports: [MovieListGridComponent],
   providers: [MoviesRepositoryImpl],
   templateUrl: './list-movies.component.html',
   styleUrl: './list-movies.component.css',

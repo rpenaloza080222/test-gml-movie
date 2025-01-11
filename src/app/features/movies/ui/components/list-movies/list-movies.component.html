@@ -1,4 +1,4 @@
-<div class="flex items-center mt-10 mb-6">
+<div class="flex items-center px-4 mt-10 mb-6">
   <input
     placeholder="Escribe tu película favorita"
     type="search"
@@ -7,14 +7,4 @@
     class="px-4 ring-orange-300 focus:shadow focus:shadow-orange-500/70 bg-[#1a1a1a] text-white text-xl w-full rounded-xl py-4 b"
   />
 </div>
-<div
-  class="grid grid-cols-1 overflow-x-hidden sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-2"
->
-  @for (item of movies(); track item.id) {
-  <app-movie-trend
-    [usePortrait]="false"
-    [showRate]="false"
-    [movie]="item"
-  ></app-movie-trend>
-  }
-</div>
+<app-movie-list-grid [movies]="movies()"> </app-movie-list-grid>

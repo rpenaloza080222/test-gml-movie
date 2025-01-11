@@ -30,7 +30,15 @@ export class MoviesRepositoryImpl implements MoviesRepository {
     return this._moviesServices.getMoviesByFilter(this.filterOptions());
   }
 
-  getMovieById(id:number){
-    return this._moviesServices.getMovieById(id)
+  getMovieById(id: number) {
+    return this._moviesServices.getMovieById(id);
+  }
+
+  getSimilarMovies(id: number) {
+    return this._moviesServices.getSimilarMovies(id);
+  }
+
+  getMovieCredits(id: number) {
+    return this._moviesServices.getMovieCredits(id);
   }
 }

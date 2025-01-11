@@ -1,5 +1,11 @@
 import { Movie } from '@/features/movies/domain/interfaces/Movie';
+import { Cast } from '@/features/movies/domain/repositories/movies.repository';
 import { MoviesRepositoryImpl } from '@/features/movies/infrastructure/repositories/movies.repository.impl';
+import {
+  MovieListGridComponent,
+  PaginationOptions,
+} from '@/shared/components/movie-list-grid/movie-list-grid.component';
+import { ImageUrlResolutionPipe } from '@/shared/pipes/image-url-resolution.pipe';
 import { DatePipe, DecimalPipe } from '@angular/common';
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -8,20 +14,25 @@ import { ActivatedRoute, Router } from '@angular/router';
   selector: 'app-movie-detail',
   imports: [
     DatePipe,
-    DecimalPipe
+    DecimalPipe,
+    MovieListGridComponent,
+    ImageUrlResolutionPipe,
   ],
-  
+
   providers: [MoviesRepositoryImpl],
   templateUrl: './movie-detail.component.html',
-  styleUrl: './movie-detail.component.css'
+  styleUrl: './movie-detail.component.css',
 })
 export class MovieDetailComponent implements OnInit {
-  private _route = inject(ActivatedRoute)
-  private _movieService = inject(MoviesRepositoryImpl)
-  id = signal<number>(0)
-  movie = signal<Movie | undefined>(undefined)
+  private _route = inject(ActivatedRoute);
+  private _movieService = inject(MoviesRepositoryImpl);
+  id = signal<number>(0);
+  movie = signal<Movie | undefined>(undefined);
+  similarMovies = signal<Movie[]>([]);
+  similarFilterOptions = signal<Partial<PaginationOptions>>({});
+  movieCredits = signal<Cast[]>([]);
 
-  getBackdropUrl(){
+  getBackdropUrl() {
     const url = `https://media.themoviedb.org/t/p/w1920_and_h800_multi_faces${
       this.movie()?.backdrop_path
     }`;
@@ -30,21 +41,46 @@ export class MovieDetailComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this._route.params.subscribe(params => {
-      if(params["id"]){
-        this.id.set(Number(params["id"]))
-        this.getMovieDetail()
+    this._route.params.subscribe((params) => {
+      if (params['id']) {
+        this.id.set(Number(params['id']));
+        this.getMovieDetail();
+        this.getSimilarMovies();
+        this.getMovieCredits();
       }
-    })
+    });
   }
 
-  getMovieDetail(){
-    this._movieService.getMovieById(this.id())
-    .subscribe(res => {
-      if(res){
-        console.log("Movie", res)
-        this.movie.set(res)
+  getMovieDetail() {
+    this._movieService.getMovieById(this.id()).subscribe((res) => {
+      if (res) {
+        console.log('Movie', res);
+        this.movie.set(res);
       }
-    })
+    });
+  }
+
+  getMovieCredits() {
+    this._movieService.getMovieCredits(this.id()).subscribe((res) => {
+      if (res) {
+        console.log('Movie Credits', res);
+        this.movieCredits.set(res.cast);
+      }
+    });
+  }
+
+  getSimilarMovies() {
+    this._movieService.getSimilarMovies(this.id()).subscribe((res) => {
+      if (res) {
+        console.log('Movies', res);
+        this.similarMovies.set(res.results);
+        this.similarFilterOptions.set({
+          page: res.page,
+          totalPages: res.total_pages,
+          total: res.total_results,
+          pageSize: 10,
+        });
+      }
+    });
   }
 }

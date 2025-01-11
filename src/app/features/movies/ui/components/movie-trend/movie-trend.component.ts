@@ -1,8 +1,7 @@
 import { Movie } from '@/features/movies/domain/interfaces/Movie';
 import { DecimalPipe } from '@angular/common';
-import { Component, inject, input } from '@angular/core';
+import { Component, inject, input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-
 
 @Component({
   selector: 'app-movie-trend',
@@ -10,11 +9,11 @@ import { Router } from '@angular/router';
   templateUrl: './movie-trend.component.html',
   styleUrl: './movie-trend.component.css',
 })
-export class MovieTrendComponent {
+export class MovieTrendComponent implements OnInit {
   movie = input<Movie | undefined>();
   showRate = input<boolean>(true);
   usePortrait = input<boolean>(true);
-  private router = inject(Router)
+  private router = inject(Router);
 
   getUrlImage() {
     if (!this.usePortrait()) {
@@ -27,7 +26,11 @@ export class MovieTrendComponent {
     return `https://image.tmdb.org/t/p/w500${this.movie()?.poster_path}`;
   }
 
-  goToMovieDetail(){
-    this.router.navigate([`movie/${this.movie()?.id}`])
+  goToMovieDetail() {
+    this.router.navigate([`movie/${this.movie()?.id}`]);
+  }
+
+  ngOnInit(): void {
+    window.scrollTo(0, 0);
   }
 }
