@@ -1,15 +1,21 @@
 @if(movie()) {
 <article
   (click)="goToMovieDetail()"
-  class="movie-trend group relative w-full min-w-[150px] p-4"
+  class="movie-trend group relative w-full min-w-[150px]"
 >
-  <div class="movie-trend__container">
+  <div
+    class="movie-trend__container {{ !usePortrait() ? 'overflow-hidden' : '' }}"
+  >
     <div class="movie-trend__image relative">
-      <img
-        src="{{ getUrlImage() }}"
-        class="transition-all duration-300 group-hover:scale-110"
-        alt="{{ movie()?.title }}"
+      <app-image
+        class="image_trend"
+        className="transition-all rounded-xl {{
+          !usePortrait() ? 'aspect-[355/200]' : 'aspect-[500/750]'
+        }} duration-300 group-hover:scale-110"
+        [image]="getUrlImage()"
+        [alt]="movie()?.title"
       />
+
       @if(!usePortrait()){
       <div
         class="absolute w-full px-4 py-6 opacity-0 group-hover:opacity-100 h-0 transition-all duration-300 group-hover:h-full top-0 left-0 bg-black/50 backdrop-blur-md flex items-center justify-center"
@@ -38,11 +44,13 @@
           {{ movie()?.title }}
         </h4>
         <span class="text-orange-500 font-semibold text-sm">{{
-          movie()?.release_date
+          movie()?.release_date | date
         }}</span>
       </div>
       }@else {
-      <h4 class="movie-trend__title max-w-[20ch]">{{ movie()?.title }}</h4>
+      <h4 class="movie-trend__title !text-wrap line-clamp-2">
+        {{ movie()?.title }}
+      </h4>
       }
     </div>
     @if(showRate()){

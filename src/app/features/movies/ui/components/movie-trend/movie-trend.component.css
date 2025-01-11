@@ -13,22 +13,17 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   width: 100%;
   height: 100%;
   max-width: 100%;
-  overflow: hidden;
 }
 
 .movie-trend__image {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 200px;
 }
 
-.movie-trend__image img {
+.movie-trend__image .image_trend {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -39,10 +34,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   width: 100%;
   color: white;
-  height: 100%;
 }
 
 .movie-trend__title {

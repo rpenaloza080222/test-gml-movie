@@ -1,69 +1,106 @@
-@if(movie()){
-<div class="flex flex-col relative h-full">
-  <div class="min-h-[300px] lg:min-h-[530px]">
-    <img
-      class="hidden lg:inline absolute z-0 top-0 w-full h-full aspect-[1920/800]"
-      src="{{ this.getBackdropUrl() }}"
-      alt=""
-    />
-    <img
-      class="lg:hidden absolute z-0 top-0 w-full h-full aspect-[3840/2160] object-cover"
-      src="{{ movie()?.poster_path ?? '' | imageUrl : 'w780' }}"
-      alt=""
-    />
-    <div
-      class="z-[100] pt-20 px-4 gap-4 justify-center text-white relative flex flex-col"
-    >
-      <div class="flex flex-col gap-2">
-        <h1
-          class="text-5xl lg:text-7xl text-jersey max-w-[20ch] text-balance title text-orange-500 text-"
-        >
-          {{ movie()?.title }}
-        </h1>
-        <h3 class="text-sm">Título original: {{ movie()?.original_title }}</h3>
-      </div>
-      <p class="text-white text-pretty max-w-[50ch] line-clamp-[10]">
-        {{ movie()?.overview }}
-      </p>
-      <div class="flex gap-4 items-center">
-        <span class="text-lg">Fecha de lanzamiento:</span>
-        <span class="text-orange-500 font-bold text-xl p-2 w-fit rounded-full">
-          {{ movie()?.release_date | date }}
-        </span>
-      </div>
-      <div class="flex gap-4 items-center">
-        <span class="text-lg">Rating:</span>
+<div class="flex-1">
+  @if(movie()){
+  <div class="flex flex-col relative h-full">
+    <div class="min-h-[300px] lg:min-h-[530px]">
+      <img
+        class="hidden lg:inline absolute z-0 top-0 w-full h-full aspect-[1920/800]"
+        src="{{ this.getBackdropUrl() }}"
+        alt=""
+      />
+      <img
+        class="lg:hidden absolute z-0 top-0 w-full h-full aspect-[3840/2160] object-cover"
+        src="{{ movie()?.poster_path ?? '' | imageUrl : 'w780' }}"
+        alt=""
+      />
+      <div
+        class="flex flex-col lg:flex-row w-full px-4 lg:items-center justify-between pt-20 relative z-[100]"
+      >
         <div
-          class="bg-orange-500 font-bold aspect-square text-xl p-2 w-fit rounded-full"
+          class="z-[100] gap-4 justify-center text-white relative flex flex-col"
         >
-          {{ movie()?.vote_average | number : "1.1-1" }}
+          <div class="flex flex-col gap-2">
+            <h1
+              class="text-5xl lg:text-7xl text-jersey max-w-[20ch] text-balance title text-orange-500 text-"
+            >
+              {{ movie()?.title }}
+            </h1>
+            <h3 class="text-sm">
+              Título original: {{ movie()?.original_title }}
+            </h3>
+          </div>
+          <p class="text-white text-pretty max-w-[50ch] line-clamp-[10]">
+            {{ movie()?.overview }}
+          </p>
+          <div class="flex gap-4 items-center">
+            <span class="text-lg">Fecha de lanzamiento:</span>
+            <span
+              class="text-orange-500 font-bold text-xl p-2 w-fit rounded-full"
+            >
+              {{ movie()?.release_date | date }}
+            </span>
+          </div>
+          <div class="flex gap-4 items-center">
+            <span class="text-lg">Rating:</span>
+            <div
+              class="bg-orange-500 font-bold aspect-square text-xl p-2 w-fit rounded-full"
+            >
+              {{ movie()?.vote_average | number : "1.1-1" }}
+            </div>
+          </div>
         </div>
+        @if (videos().length > 0 && video()) { }
+        <iframe
+          height="315"
+          [src]="this.getVideoUrl()"
+          title="YouTube video player"
+          frameborder="0"
+          class="rounded-lg w-full lg:w-[560px] mt-4 lg:mt-0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerpolicy="strict-origin-when-cross-origin"
+          allowfullscreen
+        ></iframe>
+      </div>
+
+      <div
+        class="flex gap-6 px-4 pt-4 bg-gradient-to-r from-[#050505] to-[#1a1a1a]/50 backdrop-blur-lg relative z-[100] pb-5 mt-6 items-start max-w-full overflow-x-auto"
+      >
+        @for (item of movieCredits(); track item.id) {
+        <div class="flex flex-col gap-2 items-center">
+          <app-image
+            className="min-w-32 rounded-xl aspect-[185/277] object-cover"
+            [image]="item.profile_path ?? '' | imageUrl : 'w185'"
+            alt="Foto de {{ item.character }}"
+            imageDefault="/assets/images/image_default_person.png"
+          />
+          <span class="text-white text-sm text-center">{{ item.name }}</span>
+          <span class="text-orange-500 text-xs text-center">{{
+            item.character
+          }}</span>
+        </div>
+        }
       </div>
     </div>
     <div
-      class="flex gap-6 px-4 pt-4 bg-gradient-to-r from-[#050505] to-[#1a1a1a]/50 backdrop-blur-lg relative z-[100] pb-5 mt-6 items-start max-w-full overflow-x-auto"
-    >
-      @for (item of movieCredits(); track item.id) {
-      <div class="flex flex-col gap-2 items-center">
-        <img
-          class="h-24 min-w-32 rounded-xl"
-          src="{{ item.profile_path ?? '' | imageUrl : 'w185' }}"
-          alt=""
-        />
-        <span class="text-white text-sm text-center">{{ item.name }}</span>
-      </div>
-      }
-    </div>
+      class="absolute w-full h-full z-[99] bg-gradient-to-b from-[#050505] to-[#1a1a1a]/10 backdrop-blur-sm lg:backdrop-blur-sm lg:bg-gradient-to-r lg:from-black/90 lg:to-transparent"
+    ></div>
   </div>
+  <div class="text-white px-4 mt-6 mb-4">
+    <h4 class="text-white text-5xl text-jersey">Similares</h4>
+  </div>
+  <app-movie-list-grid
+    (handlePrev)="handlePrev()"
+    (handleNext)="handleNext()"
+    [filterOptions]="similarFilterOptions()"
+    [movies]="similarMovies()"
+  ></app-movie-list-grid>
+  } @if(errorHttp()){
   <div
-    class="absolute w-full h-full z-[99] bg-gradient-to-b from-[#050505] to-[#1a1a1a]/10 backdrop-blur-sm lg:backdrop-blur-sm lg:bg-gradient-to-r lg:from-black/90 lg:to-transparent"
-  ></div>
+    class="pt-20 flex-1 h-[calc(100vh_-_20px)] items-center justify-center flex"
+  >
+    <app-error-http-handler
+      [message]="'No se encontró la película'"
+      [error]="errorHttp()"
+    ></app-error-http-handler>
+  </div>
+  }
 </div>
-<div class="text-white px-4 mt-6">
-  <h4 class="text-white text-5xl text-jersey">Similares</h4>
-</div>
-<app-movie-list-grid
-  [filterOptions]="similarFilterOptions()"
-  [movies]="similarMovies()"
-></app-movie-list-grid>
-}

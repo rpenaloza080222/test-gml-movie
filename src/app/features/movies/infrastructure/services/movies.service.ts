@@ -1,11 +1,11 @@
 import { HttpRequestService } from '@/shared/services/http-request.service';
 import { inject, Injectable } from '@angular/core';
 import { ResponseMovies } from '../../domain/interfaces/ResponseMovies';
-import {
-  MoviesFilter,
-  ResponseCredits,
-} from '../../domain/repositories/movies.repository';
+import { MoviesFilter } from '../../domain/repositories/movies.repository';
 import { Movie } from '../../domain/interfaces/Movie';
+import { ResponseCredits } from '../../domain/interfaces/ResponseCredits';
+import { ResponseVideo } from '../../domain/interfaces/ResponseVideos';
+import { PaginationOptions } from '@/shared/components/movie-list-grid/movie-list-grid.component';
 
 @Injectable({
   providedIn: 'root',
@@ -23,6 +23,7 @@ export class MoviesService {
   }
 
   getAllMovies({ page = 1, ...options }: MoviesFilter) {
+    console.log('MoviesService getAllMovies', page, options);
     return this._request.get<ResponseMovies>({
       url: 'discover/movie',
       params: {
@@ -48,15 +49,24 @@ export class MoviesService {
     });
   }
 
-  getSimilarMovies(id: number) {
+  getSimilarMovies(id: number, options: Partial<PaginationOptions>) {
     return this._request.get<ResponseMovies>({
       url: `movie/${id}/similar`,
+      params: {
+        ...options,
+      },
     });
   }
 
   getMovieCredits(id: number) {
     return this._request.get<ResponseCredits>({
       url: `movie/${id}/credits`,
+    });
+  }
+
+  getMovieVideos(id: number) {
+    return this._request.get<ResponseVideo>({
+      url: `movie/${id}/videos`,
     });
   }
 }

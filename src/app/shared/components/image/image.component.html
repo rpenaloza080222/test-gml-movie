@@ -1,0 +1,10 @@
+<img
+  [src]="image()"
+  [alt]="alt()"
+  class="{{ imageLoaded() ? '' : 'hidden' }} {{ className() }}"
+  (load)="onLoad()"
+/>
+
+@if(!imageLoaded()){
+<img [src]="imageDefault()" alt="" class=" {{ className() }}" />
+}

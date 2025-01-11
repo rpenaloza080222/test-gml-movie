@@ -8,6 +8,7 @@ import {
 import { ResponseMovies } from '../../domain/interfaces/ResponseMovies';
 import { MoviesService } from '../services/movies.service';
 import { Movie } from '../../domain/interfaces/Movie';
+import { PaginationOptions } from '@/shared/components/movie-list-grid/movie-list-grid.component';
 
 @Injectable({
   providedIn: 'root',
@@ -22,6 +23,7 @@ export class MoviesRepositoryImpl implements MoviesRepository {
   }
 
   getAllMovies(): Observable<ResponseMovies> {
+    console.log('Filters', this.filterOptions());
     return this._moviesServices.getAllMovies(this.filterOptions());
   }
 
@@ -34,11 +36,15 @@ export class MoviesRepositoryImpl implements MoviesRepository {
     return this._moviesServices.getMovieById(id);
   }
 
-  getSimilarMovies(id: number) {
-    return this._moviesServices.getSimilarMovies(id);
+  getSimilarMovies(id: number, options: Partial<PaginationOptions>) {
+    return this._moviesServices.getSimilarMovies(id, options);
   }
 
   getMovieCredits(id: number) {
     return this._moviesServices.getMovieCredits(id);
+  }
+
+  getMovieVideos(id: number) {
+    return this._moviesServices.getMovieVideos(id);
   }
 }

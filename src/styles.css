@@ -26,3 +26,26 @@
 body {
   font-family: "Montserrat", sans-serif;
 }
+
+/* Estilo general del scrollbar */
+::-webkit-scrollbar {
+  width: 6px; /* Ancho del scrollbar */
+  height: 6px; /* Altura del scrollbar horizontal */
+}
+
+/* Fondo de la barra de desplazamiento */
+::-webkit-scrollbar-track {
+  background: #050505;
+  border-radius: 10px; /* Opcional: bordes redondeados */
+}
+
+/* Color del thumb (el control que se mueve) */
+::-webkit-scrollbar-thumb {
+  @apply bg-orange-500;
+  border-radius: 10px; /* Bordes redondeados */
+}
+
+/* Cambiar color al hacer hover */
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-orange-600;
+}

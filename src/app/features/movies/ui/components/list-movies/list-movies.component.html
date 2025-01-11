@@ -7,4 +7,10 @@
     class="px-4 ring-orange-300 focus:shadow focus:shadow-orange-500/70 bg-[#1a1a1a] text-white text-xl w-full rounded-xl py-4 b"
   />
 </div>
-<app-movie-list-grid [movies]="movies()"> </app-movie-list-grid>
+<app-movie-list-grid
+  (handlePrev)="handlePrev()"
+  (handleNext)="handleNext()"
+  [filterOptions]="paginationOptions()"
+  [movies]="movies()"
+>
+</app-movie-list-grid>
