@@ -8,6 +8,7 @@ import {
 import { ImageUrlResolutionPipe } from '@/shared/pipes/image-url-resolution.pipe';
 import { DatePipe, DecimalPipe } from '@angular/common';
 import { Component, inject, OnInit, signal } from '@angular/core';
+import { Meta, Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
@@ -19,7 +20,7 @@ import { ActivatedRoute, Router } from '@angular/router';
     ImageUrlResolutionPipe,
   ],
 
-  providers: [MoviesRepositoryImpl],
+  providers: [MoviesRepositoryImpl, Title, Meta],
   templateUrl: './movie-detail.component.html',
   styleUrl: './movie-detail.component.css',
 })
@@ -27,6 +28,8 @@ export class MovieDetailComponent implements OnInit {
   private _route = inject(ActivatedRoute);
   private _movieService = inject(MoviesRepositoryImpl);
   id = signal<number>(0);
+  titleProvider = inject(Title);
+  metaProvider = inject(Meta);
   movie = signal<Movie | undefined>(undefined);
   similarMovies = signal<Movie[]>([]);
   similarFilterOptions = signal<Partial<PaginationOptions>>({});
@@ -56,6 +59,24 @@ export class MovieDetailComponent implements OnInit {
       if (res) {
         console.log('Movie', res);
         this.movie.set(res);
+        this.titleProvider.setTitle(res.title);
+        this.metaProvider.updateTag({
+          name: 'description',
+          content: res.overview,
+        });
+        //OpenGraph
+        this.metaProvider.updateTag({
+          property: 'og:title',
+          content: res.title,
+        });
+        this.metaProvider.updateTag({
+          property: 'og:description',
+          content: res.overview,
+        });
+        this.metaProvider.updateTag({
+          property: 'og:image',
+          content: this.getBackdropUrl(),
+        });
       }
     });
   }
