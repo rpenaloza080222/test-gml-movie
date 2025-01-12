@@ -5,12 +5,12 @@
       <img
         class="hidden lg:inline absolute z-0 top-0 w-full h-full aspect-[1920/800]"
         src="{{ this.getBackdropUrl() }}"
-        alt=""
+        alt="Background {{ movie()?.title }}"
       />
       <img
         class="lg:hidden absolute z-0 top-0 w-full h-full aspect-[3840/2160] object-cover"
         src="{{ movie()?.poster_path ?? '' | imageUrl : 'w780' }}"
-        alt=""
+        alt="Poster {{ movie()?.title }}"
       />
       <div
         class="flex flex-col lg:flex-row w-full px-4 lg:items-center justify-between pt-20 relative z-[100]"
@@ -19,6 +19,10 @@
           class="z-[100] gap-4 justify-center text-white relative flex flex-col"
         >
           <div class="flex flex-col gap-2">
+            @if (loading()) {
+            <app-skeleton className="w-[10ch] h-4 text-xl"></app-skeleton>
+            <app-skeleton className="w-[2ch] h-4 text-xl"></app-skeleton>
+            } @else {
             <h1
               class="text-5xl lg:text-7xl text-jersey max-w-[20ch] text-balance title text-orange-500 text-"
             >
@@ -27,6 +31,7 @@
             <h3 class="text-sm">
               Título original: {{ movie()?.original_title }}
             </h3>
+            }
           </div>
           <p class="text-white text-pretty max-w-[50ch] line-clamp-[10]">
             {{ movie()?.overview }}
@@ -48,7 +53,10 @@
             </div>
           </div>
         </div>
-        @if (videos().length > 0 && video()) { }
+
+        @if(loadingVideos()){
+        <app-skeleton className="w-full lg:w-[560px] h-[315px]"></app-skeleton>
+        } @else if (!loadingVideos() ) {
         <iframe
           height="315"
           [src]="this.getVideoUrl()"
@@ -59,12 +67,23 @@
           referrerpolicy="strict-origin-when-cross-origin"
           allowfullscreen
         ></iframe>
+        }
       </div>
 
       <div
         class="flex gap-6 px-4 pt-4 bg-gradient-to-r from-[#050505] to-[#1a1a1a]/50 backdrop-blur-lg relative z-[100] pb-5 mt-6 items-start max-w-full overflow-x-auto"
       >
-        @for (item of movieCredits(); track item.id) {
+        @if(loadingCredits()){ @for (item of sliceCredits ; track $index) {
+        <div class="flex flex-col gap-2 items-center">
+          <app-skeleton className="w-[185px] h-[277px]"></app-skeleton>
+          <span class="text-white text-sm text-center">
+            <app-skeleton className="w-[10ch] h-4"></app-skeleton>
+          </span>
+          <span class="text-orange-500 text-xs text-center">
+            <app-skeleton className="w-[2ch] h-4"></app-skeleton>
+          </span>
+        </div>
+        } } @for (item of movieCredits(); track item.id) {
         <div class="flex flex-col gap-2 items-center">
           <app-image
             className="min-w-32 rounded-xl aspect-[185/277] object-cover"
@@ -92,6 +111,7 @@
     (handleNext)="handleNext()"
     [filterOptions]="similarFilterOptions()"
     [movies]="similarMovies()"
+    [loading]="loadingSimilar()"
   ></app-movie-list-grid>
   } @if(errorHttp()){
   <div

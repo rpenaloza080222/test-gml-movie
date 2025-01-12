@@ -22,6 +22,7 @@ export class MovieListGridComponent {
   filterOptions = input<Partial<PaginationOptions>>({});
   handlePrev = output<void>();
   handleNext = output<void>();
+  loading = input<boolean>(false);
 
   next() {
     this.handleNext.emit();
@@ -29,5 +30,11 @@ export class MovieListGridComponent {
 
   prev() {
     this.handlePrev.emit();
+  }
+
+  get sliceMovies() {
+    return Array.from({
+      length: 8,
+    });
   }
 }

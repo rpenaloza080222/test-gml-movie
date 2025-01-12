@@ -6,10 +6,17 @@
     [usePortrait]="false"
     [showRate]="false"
     [movie]="item"
+    [loading]="loading()"
   ></app-movie-trend>
-  }
+  } @if(loading()){ @for (item of sliceMovies ; track $index) {
+  <app-movie-trend
+    [usePortrait]="false"
+    [showRate]="false"
+    [loading]="loading()"
+  ></app-movie-trend>
+  } }
 </div>
-@if(movies().length > 0 && filterOptions()){
+@if(!loading() && movies().length > 0 && filterOptions()){
 <app-pagination
   (next)="next()"
   (prev)="prev()"

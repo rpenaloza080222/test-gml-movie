@@ -25,6 +25,7 @@ export class ListMoviesComponent {
   filterAllMoviesSubscription = signal<Subscription | undefined>(undefined);
   filterOptionsSubscription = signal<Subscription | undefined>(undefined);
   paginationOptions = signal<Partial<PaginationOptions>>({});
+  loading = signal<boolean>(true);
 
   constructor() {
     effect(() => {
@@ -43,6 +44,7 @@ export class ListMoviesComponent {
   }
 
   handlePrev() {
+    this.loading.set(true);
     const currentPage = this.paginationOptions()?.page ?? 0;
 
     if (currentPage === 1) return;
@@ -59,6 +61,7 @@ export class ListMoviesComponent {
   }
 
   handleNext() {
+    this.loading.set(true);
     const totalPages = this.paginationOptions()?.totalPages ?? 0;
     const currentPage = this.paginationOptions()?.page ?? 0;
 
@@ -76,6 +79,7 @@ export class ListMoviesComponent {
   }
 
   getMovies() {
+    this.loading.set(true);
     if (this.filterAllMoviesSubscription()) {
       this.filterAllMoviesSubscription()?.unsubscribe();
     }
@@ -84,30 +88,46 @@ export class ListMoviesComponent {
     }
 
     if (this._moviesRepository.filterOptions().query) {
-      this._moviesRepository.getMoviesByFilter().subscribe((response) => {
-        console.log(response);
-        this._moviesRepository.movies.set(response.results);
-        this.paginationOptions.update((options) => {
-          return {
-            ...options,
-            totalPages: response.total_pages,
-            total: response.total_results,
-            page: response.page,
-          };
-        });
+      this._moviesRepository.getMoviesByFilter().subscribe({
+        next: (response) => {
+          console.log(response);
+          this._moviesRepository.movies.set(response.results);
+          this.paginationOptions.update((options) => {
+            return {
+              ...options,
+              totalPages: response.total_pages,
+              total: response.total_results,
+              page: response.page,
+            };
+          });
+        },
+        error: (error) => {
+          console.log('Error', error);
+        },
+        complete: () => {
+          this.loading.set(false);
+        },
       });
     } else {
-      this._moviesRepository.getAllMovies().subscribe((response) => {
-        console.log(response);
-        this._moviesRepository.movies.set(response.results);
-        this.paginationOptions.update((options) => {
-          return {
-            ...options,
-            totalPages: response.total_pages,
-            total: response.total_results,
-            page: response.page,
-          };
-        });
+      this._moviesRepository.getAllMovies().subscribe({
+        next: (response) => {
+          console.log(response);
+          this._moviesRepository.movies.set(response.results);
+          this.paginationOptions.update((options) => {
+            return {
+              ...options,
+              totalPages: response.total_pages,
+              total: response.total_results,
+              page: response.page,
+            };
+          });
+        },
+        error: (error) => {
+          console.log('Error', error);
+        },
+        complete: () => {
+          this.loading.set(false);
+        },
       });
     }
   }

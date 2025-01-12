@@ -1,8 +1,17 @@
-@if (movies().length > 0) {
+@if (!loading() && movies().length > 0) {
 <h2 class="text-3xl text-white px-4 text-jersey mt-10">Trending Movies</h2>
 <ul class="list-movie-trend px-4">
   @for (item of movies(); track item.id) {
-  <app-movie-trend [movie]="item"></app-movie-trend>
+  <app-movie-trend [loading]="loading()" [movie]="item"></app-movie-trend>
+  } @empty {
+  <li>There are no items.</li>
+  }
+</ul>
+} @if(loading()) {
+<h2 class="text-3xl text-white px-4 text-jersey mt-10">Trending Movies</h2>
+<ul class="list-movie-trend px-4">
+  @for (item of moviesMock; track $index) {
+  <app-skeleton className="w-[150px] h-[225px] text-xl"></app-skeleton>
   } @empty {
   <li>There are no items.</li>
   }

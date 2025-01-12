@@ -1,0 +1,7 @@
+<app-movie-list-grid
+  (handleNext)="next()"
+  (handlePrev)="prev()"
+  [filterOptions]="paginationOptions()"
+  [movies]="movies()"
+  [loading]="loading()"
+></app-movie-list-grid>

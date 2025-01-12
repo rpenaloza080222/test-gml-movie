@@ -1,0 +1,27 @@
+.skeleton-wrapper {
+  @apply relative overflow-hidden bg-[rgb(5_5_5)] rounded-md;
+}
+
+.skeleton {
+  @apply w-full h-full bg-gray-300 rounded-md;
+}
+
+.animate-shine {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgb(96 96 96 / 47%) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  background-size: 200% 100%;
+  animation: shine 1.7s infinite;
+}
+
+@keyframes shine {
+  from {
+    background-position: 200% 0;
+  }
+  to {
+    background-position: -200% 0;
+  }
+}

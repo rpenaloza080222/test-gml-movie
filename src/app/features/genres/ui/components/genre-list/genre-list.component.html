@@ -1,3 +1,19 @@
+@if(loading()){
+<div
+  class="categories mt-16 overflow-hidden flex justify-center items-center pt-2 px-4 bg-gradient-to-r from-[#050505] to-[#1a1a1a]/50 backdrop-blur-lg h-[70px] rounded-xl"
+>
+  <ul class="flex px-4 items-center flex-1 max-w-full overflow-x-auto gap-10">
+    @for(item of sliceGenresMock; track $index) {
+    <li
+      class="flex items-center text-white hover:text-orange-400 gap-2 cursor-pointer"
+    >
+      <app-skeleton className="w-[10ch] h-4 text-xl"></app-skeleton>
+    </li>
+    }
+  </ul>
+</div>
+
+}@else {
 <div
   class="categories mt-16 overflow-hidden flex justify-center items-center pt-2 px-4 bg-gradient-to-r from-[#050505] to-[#1a1a1a]/50 backdrop-blur-lg h-[70px] rounded-xl"
 >
@@ -6,8 +22,19 @@
     <li
       class="flex items-center text-white hover:text-orange-400 gap-2 cursor-pointer"
     >
-      <span class="text-xl lg:text-base">{{ item.name }}</span>
+      <a routerLink="/genre/{{ item.id }}-{{ item.name }}">
+        <span class="text-xl lg:text-base">{{ item.name }}</span>
+      </a>
     </li>
-    }
+
+    } @if(loading()) { @for(item of sliceGenresMock; track $index) {
+    <li
+      class="flex items-center text-white hover:text-orange-400 gap-2 cursor-pointer"
+    >
+      <app-skeleton className="w-[10ch] h-4 text-xl"></app-skeleton>
+    </li>
+    } }
   </ul>
 </div>
+
+}

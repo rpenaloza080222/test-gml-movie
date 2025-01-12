@@ -11,6 +11,7 @@ import {
   MovieListGridComponent,
   PaginationOptions,
 } from '@/shared/components/movie-list-grid/movie-list-grid.component';
+import { SkeletonComponent } from '@/shared/components/skeleton/skeleton.component';
 import { ImageUrlResolutionPipe } from '@/shared/pipes/image-url-resolution.pipe';
 import { DatePipe, DecimalPipe } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -27,6 +28,7 @@ import { ActivatedRoute, Router } from '@angular/router';
     ImageUrlResolutionPipe,
     ErrorHttpHandlerComponent,
     ImageComponent,
+    SkeletonComponent,
   ],
 
   providers: [MoviesRepositoryImpl, Title, Meta],
@@ -47,6 +49,10 @@ export class MovieDetailComponent implements OnInit {
   videos = signal<Result[]>([]);
   video = signal<Result | undefined>(undefined);
   sanitizerProvider = inject(DomSanitizer);
+  loadingSimilar = signal<boolean>(true);
+  loading = signal<boolean>(true);
+  loadingCredits = signal<boolean>(true);
+  loadingVideos = signal<boolean>(true);
 
   getBackdropUrl() {
     const url = `https://media.themoviedb.org/t/p/w1920_and_h800_multi_faces${
@@ -56,6 +62,10 @@ export class MovieDetailComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.loading.set(true);
+    this.loadingVideos.set(true);
+    this.loadingCredits.set(true);
+    this.loadingSimilar.set(true);
     this._route.params.subscribe((params) => {
       if (params['id']) {
         this.id.set(Number(params['id']));
@@ -63,8 +73,15 @@ export class MovieDetailComponent implements OnInit {
           ...value,
           page: 1,
         }));
+        this.loading.set(true);
         this.getMovieDetail();
       }
+    });
+  }
+
+  get sliceCredits() {
+    return Array.from({
+      length: 8,
     });
   }
 
@@ -74,8 +91,12 @@ export class MovieDetailComponent implements OnInit {
         if (res) {
           console.log('Movie', res);
           this.movie.set(res);
+          this.loading.set(false);
+          this.loadingCredits.set(true);
+          this.loadingSimilar.set(true);
           this.getSimilarMovies();
           this.getMovieCredits();
+          this.loadingVideos.set(true);
           this.getVideos();
           this.titleProvider.setTitle(res.title);
           this.metaProvider.updateTag({
@@ -111,10 +132,14 @@ export class MovieDetailComponent implements OnInit {
           console.log('Internal Server Error', err);
         }
       },
+      complete: () => {
+        this.loading.set(false);
+      },
     });
   }
 
   getMovieCredits() {
+    this.loadingCredits.set(true);
     this._movieService.getMovieCredits(this.id()).subscribe({
       next: (res) => {
         if (res) {
@@ -135,10 +160,14 @@ export class MovieDetailComponent implements OnInit {
           console.log('Internal Server Error', err);
         }
       },
+      complete: () => {
+        this.loadingCredits.set(false);
+      },
     });
   }
 
   handlePrev() {
+    this.loadingSimilar.set(true);
     const currentPage = this.similarFilterOptions()?.page ?? 0;
 
     if (currentPage === 1) return;
@@ -152,6 +181,7 @@ export class MovieDetailComponent implements OnInit {
   }
 
   handleNext() {
+    this.loadingSimilar.set(true);
     const totalPages = this.similarFilterOptions()?.totalPages ?? 0;
     const currentPage = this.similarFilterOptions()?.page ?? 0;
 
@@ -166,6 +196,7 @@ export class MovieDetailComponent implements OnInit {
   }
 
   getSimilarMovies() {
+    this.loadingSimilar.set(true);
     this._movieService
       .getSimilarMovies(this.id(), this.similarFilterOptions())
       .subscribe({
@@ -194,10 +225,14 @@ export class MovieDetailComponent implements OnInit {
             console.log('Internal Server Error', err);
           }
         },
+        complete: () => {
+          this.loadingSimilar.set(false);
+        },
       });
   }
 
   getVideos() {
+    this.loadingVideos.set(true);
     this._movieService.getMovieVideos(this.id()).subscribe({
       next: (res) => {
         if (res) {
@@ -216,9 +251,11 @@ export class MovieDetailComponent implements OnInit {
               this.video.set(videoTrailer);
             }
           }
+          this.loadingVideos.set(false);
         }
       },
       error: (err) => {
+        this.loadingVideos.set(false);
         console.log('Error videos', err);
         this.errorHttp.set(err);
         if (err.status === 0) {
@@ -230,6 +267,9 @@ export class MovieDetailComponent implements OnInit {
         if (err.status === 500) {
           console.log('Internal Server Error', err);
         }
+      },
+      complete: () => {
+        this.loadingVideos.set(false);
       },
     });
   }

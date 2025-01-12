@@ -1,0 +1,6 @@
+<div class="min-h-screen text-white px-4 pt-20 flex flex-col">
+  <h1 class="text-3xl lg:text-7xl mb-10 text-orange-500 text-jersey">
+    Peliculas del Género {{ genre() }}
+  </h1>
+  <app-genre-movie-list [genreId]="genreId()"></app-genre-movie-list>
+</div>
